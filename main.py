@@ -30,10 +30,7 @@ y = pd.Series(housing.target)
 # We'll use only the 'AveRooms' feature (average number of rooms)
 X_rm = X['AveRooms']
 
-# Assumptions Check
-# Linearity
-
-# Scatter plot to check for linearity
+# Visualize the relationship between rooms and price
 plt.figure(figsize=(10, 6))
 sns.scatterplot(x=X_rm, y=y, alpha=0.1)
 plt.title('Scatter Plot of X_rm vs y')
@@ -41,11 +38,8 @@ plt.xlabel('X_rm')
 plt.ylabel('y')
 plt.show()
 
-# It looks like there are some very large X_rm values
-# Who has a house with 140 rooms?
-# Let's drop those and replot
-
-
+# It looks like there are some very large X_rm values (who has a house with 140 rooms?)
+# Drop those and replot
 # Calculate the threshold for the top 1% of X_rm values
 threshold = np.percentile(X_rm, 99)
 
@@ -66,9 +60,6 @@ plt.show()
 
 # Note that y values are capped at 5.0
 
-
-# Calculate the Mean Values
-
 # Calculate the means of X and y
 mean_x = X_rm_filtered.mean()
 mean_y = y_filtered.mean()
@@ -77,17 +68,14 @@ mean_y = y_filtered.mean()
 print(f"Mean of X (RM): {mean_x}")
 print(f"Mean of y (Price): {mean_y}")
 
-# Calculate Deviations from the Means for X and y
 # X deviations from the X mean and Y deviations from the Y mean
 x_dev = X_rm_filtered - mean_x
 y_dev = y_filtered - mean_y
 
-# Multiply X and Y Deviations
-# Multiply the two pandas series (element-wise)
+# Multiply X and Y Deviations (element-wise)
 xy_dev_product = x_dev * y_dev
 
 # Square the X Deviations
-# Each element of the X deviations is squared
 x_dev_squared = x_dev ** 2
 
 # Sum the product of deviations and the squared X deviations
@@ -97,33 +85,28 @@ sum_x_dev_squared = sum(x_dev_squared)
 print(f"Sum of X*Y deviations: {sum_xy_dev_product}")
 print(f"Sum of X deviations squared: {sum_x_dev_squared}")
 
-# Calculate the slope (beta_1)
+# Calculate the slope from the sum of xy deviations and the sum of the squared x deviations
 slope = sum_xy_dev_product / sum_x_dev_squared
-
 print(f"Slope (Coefficient): {slope}")
 
-# Calculate the intercept (beta_0)
+# Calculate the intercept from the mean of y minus the slope times the mean of x
 intercept = mean_y - slope * mean_x
 print(f"Intercept: {intercept}")
 
-
-# Predict y values based on the calculated regression equation
+# Calculate predicted values of y values based on the calculated intercept and slope
 y_pred = intercept + slope * X_rm_filtered
 
-
 # Compute the Total Sum of Squares (SST)
-# This is the sum of the squared differences between the actual values
-# and the mean of the dependent variable
+# This is the sum of the squared differences between the actual values and the mean of the dependent variable
 sst = np.sum((y_filtered - mean_y) ** 2)
 
 # Calculate the Residual Sum of Squares (SSE)
-# This is the sum of the squared differences between the actual values
-# and the predicted values
+# This is the sum of the squared differences between the actual values and the predicted values
 sse = np.sum((y_filtered - y_pred) ** 2)
 
 # Calculate R-squared
-# Use sse and sst
+# Use sse and sst calculated above
 r_squared = 1 - (sse / sst)
 
-# Print the result
+# Print the R-squared result
 print(f"R-squared: {r_squared}")
