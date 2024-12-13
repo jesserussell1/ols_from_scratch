@@ -1,8 +1,8 @@
-# C an ordinary least squares (OLS) regression from scratch
-## Jesse Russell
-### September 30, 2024
+# Calculate an ordinary least squares (OLS) regression from scratch
+# Jesse Russell
+# September 30, 2024
 
-#### For documentation on the dataset, [see here](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html).
+# For documentation on the dataset, [see here](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html).
 
 # Load packages
 # Get the California housing dataset
@@ -32,7 +32,7 @@ X_rm = X['AveRooms']
 
 # Visualize the relationship between rooms and price
 plt.figure(figsize=(10, 6))
-sns.scatterplot(x=X_rm, y=y, alpha=0.1)
+sns.scatterplot(x=X_rm, y=y, alpha=0.1, color='orange')
 plt.title('Scatter Plot of X_rm vs y')
 plt.xlabel('X_rm')
 plt.ylabel('y')
@@ -50,9 +50,9 @@ X_rm_filtered = X_rm[filtered_indices]
 # And get the y values just for the filtered X values
 y_filtered = y[filtered_indices]
 
-# Plot scatter plot to check for linearity after dropping outliers
+# Receck the scatter plot
 plt.figure(figsize=(10, 6))
-sns.scatterplot(x=X_rm_filtered, y=y_filtered, alpha=0.1)
+sns.scatterplot(x=X_rm_filtered, y=y_filtered, alpha=0.1, color='orange')
 plt.title('Scatter Plot of X_rm vs y (Top 1% Outliers Removed)')
 plt.xlabel('X_rm')
 plt.ylabel('y')
