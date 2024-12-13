@@ -1,4 +1,4 @@
-# How to calculate an ordinary least squares (OLS) regression from scratch
+# C an ordinary least squares (OLS) regression from scratch
 ## Jesse Russell
 ### September 30, 2024
 
@@ -41,9 +41,9 @@ plt.xlabel('X_rm')
 plt.ylabel('y')
 plt.show()
 
-# 🏡 It looks like there are some very large X_rm values
-### Who has a house with 140 rooms?
-### Let's drop those and replot
+# It looks like there are some very large X_rm values
+# Who has a house with 140 rooms?
+# Let's drop those and replot
 
 
 # Calculate the threshold for the top 1% of X_rm values
@@ -78,32 +78,19 @@ print(f"Mean of X (RM): {mean_x}")
 print(f"Mean of y (Price): {mean_y}")
 
 # Calculate Deviations from the Means for X and y
-
 # X deviations from the X mean and Y deviations from the Y mean
 x_dev = X_rm_filtered - mean_x
 y_dev = y_filtered - mean_y
 
-
 # Multiply X and Y Deviations
-
 # Multiply the two pandas series (element-wise)
 xy_dev_product = x_dev * y_dev
 
-# As a check, print the first few results
-print(xy_dev_product.head())
-
 # Square the X Deviations
-
 # Each element of the X deviations is squared
 x_dev_squared = x_dev ** 2
 
- # As a check, print the first few results
-print(x_dev_squared.head())
-
 # Sum the product of deviations and the squared X deviations
-# When you use the sum() method on a pandas series, it calculates the sum of all the elements in the series
-
-# Calculate the sums
 sum_xy_dev_product = sum(xy_dev_product)
 sum_x_dev_squared = sum(x_dev_squared)
 
@@ -111,41 +98,30 @@ print(f"Sum of X*Y deviations: {sum_xy_dev_product}")
 print(f"Sum of X deviations squared: {sum_x_dev_squared}")
 
 # Calculate the slope (beta_1)
-
 slope = sum_xy_dev_product / sum_x_dev_squared
 
 print(f"Slope (Coefficient): {slope}")
 
 # Calculate the intercept (beta_0)
-
 intercept = mean_y - slope * mean_x
 print(f"Intercept: {intercept}")
 
 
-
 # Predict y values based on the calculated regression equation
-
-# Use the calculated intercept, slope, and X values
 y_pred = intercept + slope * X_rm_filtered
-
-# Print the first few rows
-print(y_pred.head())
 
 
 # Compute the Total Sum of Squares (SST)
 # This is the sum of the squared differences between the actual values
 # and the mean of the dependent variable
-
 sst = np.sum((y_filtered - mean_y) ** 2)
 
 # Calculate the Residual Sum of Squares (SSE)
 # This is the sum of the squared differences between the actual values
 # and the predicted values
-
 sse = np.sum((y_filtered - y_pred) ** 2)
 
 # Calculate R-squared
-
 # Use sse and sst
 r_squared = 1 - (sse / sst)
 
